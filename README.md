@@ -1,6 +1,6 @@
 ### Early-Prediction-Course-Quality
 - Designed a course quality prediction framework from the MoocubeX dataset by processing 13 relational learning analytics
-tables with up to 11M+ records.
+tables with up to 11M+ records. The original dataset available at [https://github.com/THU-KEG/MOOCCubeX](here)
 - Built a feature engineering pipeline to compute COELO, AFELO, and ACELO scores at the chapter level, combining multiple
 sub-indicators from learner behavior, course engagement, affective feedback based on chapter-level activity. Integrated BERT-
 based sentiment analysis on learner comments to generate affective learning signals for the AFELO component.
