@@ -1,4 +1,4 @@
-## Early-Prediction-Course-Quality
+# Early-Prediction-Course-Quality
 - Designed a course quality prediction framework from the MoocubeX dataset by processing 13 relational learning analytics
 tables with up to 11M+ records. The original dataset available at [https://github.com/THU-KEG/MOOCCubeX](here)
 - Built a feature engineering pipeline to compute COELO, AFELO, and ACELO scores at the chapter level, combining multiple
@@ -12,7 +12,7 @@ SMOTE oversampling, CTGAN-based synthetic sampling, and hybrid resampling method
 result of 0.818 Macro-F1 and 0.90 recall for the Needs Improvement class.
 - Details available at [this google drive link](https://drive.google.com/drive/u/0/folders/1r_ZOKB9jn8U8KBTChkmsPHwwmYisIw7V)
 
-## CourseQuality Data Pipeline Architecture
+# CourseQuality Data Pipeline Architecture
 
 This diagram describes the current local-first, S3-ready CourseQuality pipeline.
 It follows a medallion-style data lake layout: Raw/Bronze, Silver, Gold, then
@@ -57,9 +57,9 @@ flowchart LR
     end
 
     subgraph Gold["Gold Analytical Layer"]
-        COELO["COELO<br/>content/resource quality"]
-        ACELO["ACELO<br/>assignment + video + discussion"]
-        AFELO["AFELO<br/>feedback sentiment + views"]
+        COELO["COELO<br/>Cognitive Engagement<br/>TS / RV / IF / AV"]
+        ACELO["ACELO<br/>Academic Engagement<br/>scores / attempts / results"]
+        AFELO["AFELO<br/>Affective Engagement<br/>FV / FA sentiment"]
         LABELS["course_labels<br/>course_label / label_details / label_chapters"]
         FEATURES["course_phase_feature_snapshot<br/>G1 / G2 / G3 / FULL"]
         TRAINING["training_dataset<br/>train_full / valid_full<br/>test_G1 / test_G2 / test_G3<br/>split_manifest.json"]
@@ -97,7 +97,7 @@ flowchart LR
     COMMENT --> LIFE
     ENROLL --> LIFE
 
-    RESOURCE --> COELO
+    RESOURCE -. resource/chapter map .-> COELO
     VIDEO --> COELO
     PROBLEM --> COELO
 
@@ -147,9 +147,9 @@ flowchart TB
     end
 
     subgraph GoldLayer["Gold Layer: Aggregated Indicators"]
-        G1["COELO"]
-        G2["ACELO"]
-        G3["AFELO"]
+        G1["COELO<br/>Cognitive Engagement<br/>TS / RV / IF / AV"]
+        G2["ACELO<br/>Academic Engagement<br/>scores / attempts / results"]
+        G3["AFELO<br/>Affective Engagement<br/>FV / FA sentiment"]
         G4["Course labels<br/>CQS / CQS_num"]
         G5["Feature snapshots<br/>G1 / G2 / G3 / FULL"]
     end
@@ -173,7 +173,7 @@ flowchart TB
     F3 --> F5
     F4 --> F5
 
-    D1 --> G1
+    D1 -. resource/chapter map .-> G1
     F1 --> G1
     F2 --> G1
 
@@ -205,7 +205,27 @@ flowchart TB
     G4 --> M6
 ```
 
-## Current Execution Modes (Current working on deploying to AWS services, finished on local)
+## Engagement Indicator Definitions
+
+```text
+COELO - Cognitive Engagement / Mức độ tham gia nhận thức:
+Phản ánh nỗ lực tinh thần và mức độ xử lý thông tin sâu của người học.
+Chỉ số này được tổng hợp từ 4 thành phần con: TS, RV, IF, và AV.
+Các biến số chính được tính từ dữ liệu tương tác user-video và user-problem;
+course_resource_map đóng vai trò hỗ trợ map resource/chapter.
+
+ACELO - Academic Engagement / Mức độ tham gia học thuật:
+Đo lường trách nhiệm và kết quả học tập thực tế. Chỉ số này được tính toán
+dựa trên điểm số, số lần thử, và kết quả làm bài tập của người học được ghi
+nhận trong hệ thống.
+
+AFELO - Affective Engagement / Mức độ tham gia cảm xúc:
+Đánh giá thái độ và sự hứng thú của người học. Chỉ số này được xác định qua
+FV và FA. Trong đó, FA được xác định bằng sentiment analysis trên dữ liệu
+comment và user-comment của học viên.
+```
+
+## Current Execution Modes
 
 ```mermaid
 flowchart LR
@@ -226,4 +246,3 @@ flowchart LR
     DOCKER -. with S3 config .-> S3
     CLOUD --> S3
 ```
-
