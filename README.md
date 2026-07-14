@@ -205,7 +205,7 @@ flowchart TB
     G4 --> M6
 ```
 
-## Current Execution Modes
+## Current Execution Modes (Current working on deploying to AWS services, finished on local)
 
 ```mermaid
 flowchart LR
