@@ -12,13 +12,13 @@ SMOTE oversampling, CTGAN-based synthetic sampling, and hybrid resampling method
 result of 0.818 Macro-F1 and 0.90 recall for the Needs Improvement class.
 - Details available at [this google drive link](https://drive.google.com/drive/u/0/folders/1r_ZOKB9jn8U8KBTChkmsPHwwmYisIw7V)
 
-# CourseQuality Data Pipeline Architecture
+## CourseQuality Data Pipeline Architecture
 
 This diagram describes the current local-first, S3-ready CourseQuality pipeline.
 It follows a medallion-style data lake layout: Raw/Bronze, Silver, Gold, then
 ML-ready datasets and model artifacts.
 
-## End-to-End Pipeline
+### End-to-End Pipeline
 
 ```mermaid
 flowchart LR
@@ -129,7 +129,7 @@ flowchart LR
     EVAL --> SERVE
 ```
 
-## Data Modeling and Lineage
+### Data Modeling and Lineage
 
 ```mermaid
 flowchart TB
@@ -205,7 +205,7 @@ flowchart TB
     G4 --> M6
 ```
 
-## Engagement Indicator Definitions
+### Engagement Indicator Definitions
 
 ```text
 COELO - Cognitive Engagement / Mức độ tham gia nhận thức:
@@ -225,7 +225,7 @@ FV và FA. Trong đó, FA được xác định bằng sentiment analysis trên 
 comment và user-comment của học viên.
 ```
 
-## Current Execution Modes
+### Current Execution Modes
 
 ```mermaid
 flowchart LR
